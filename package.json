@@ -1,0 +1,16 @@
+{
+  "name": "agendahair",
+  "version": "1.0.0",
+  "description": "Trabalho facultativo",
+  "main": "frontend/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^29.1.5"
+  }
+}
