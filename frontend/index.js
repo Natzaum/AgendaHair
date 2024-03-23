@@ -5,9 +5,10 @@ let mainWindow
 app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
-
+        width: 800,
+        height: 600,
     })
 
-    mainWindow.loadURL(`File://${ __dirname }/index.html`)
+    mainWindow.loadFile('frontend/index.html')
 
 })
