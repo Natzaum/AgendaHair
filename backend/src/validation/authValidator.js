@@ -15,7 +15,7 @@ module.exports = {
                     max: 50
                 }
             },
-            errorMessage: "O nome não condiz com os limites de tamanho!"
+            errorMessage: "O nome não condiz com os limites de tamanho"
         },
 
         email: {
@@ -28,13 +28,13 @@ module.exports = {
             custom: {
                 options: (value) => {
                     if(!isValidEmailDomain(value)){
-                        throw new Error("O dominio do email não é permitido!")
+                        throw new Error("O dominio do email não é permitido")
                     }
                     return true
                 }
             },
             isEmail: true,
-            errorMessage: "Email inválido!"
+            errorMessage: "Email inválido"
         },
 
         password: {
@@ -43,7 +43,8 @@ module.exports = {
                     min: 8,
                     max: 100
                 }
-            }
+            },
+            errorMessage: "A senha não condiz com os limites de tamanho"
         }
     }),
 
@@ -57,7 +58,7 @@ module.exports = {
             },
 
             isEmail: true,
-            errorMessage: "Email inválido para login!"
+            errorMessage: "Email inválido para login"
         },
 
         password: {
@@ -66,7 +67,8 @@ module.exports = {
                     min: 8,
                     max: 100
                 }
-            }
+            },
+            errorMessage: "Senha incorreta"
         }
     })
 }
