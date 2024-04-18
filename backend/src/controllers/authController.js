@@ -10,7 +10,7 @@ const register = async (req, res) => {
         })
     }
     res.json({
-        messagem: 'Funcionando!', 
+        messagem: "Funcionando!", 
     })
 }
 
@@ -23,7 +23,7 @@ const login = async (req, res) => {
         })
     }
     res.json({
-        messagem: "Funcionando"
+        messagem: "Funcionando!"
     })
 }
 
