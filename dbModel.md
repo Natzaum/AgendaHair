@@ -6,6 +6,7 @@ users:
 - targetGroup -> str[] none
 - address -> str none
 - cpf -> str
+- cnpj -> str
 - sex -> enum ['male', 'female', 'other']
 - roleId -> int (foreign key referencing roles.id)
 - admin -> boolean
