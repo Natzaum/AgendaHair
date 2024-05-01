@@ -5,7 +5,8 @@
   "main": "frontend/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "electron ."
+    "dev": "electron .",
+    "server": "nodemon backend/src/app.js"
   },
   "keywords": [],
   "author": "",
