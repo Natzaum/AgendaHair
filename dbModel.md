@@ -8,6 +8,7 @@ users:
 - cpf -> str
 - cnpj -> str
 - sex -> enum ['male', 'female', 'other']
+- genre -> str
 - roleId -> int (foreign key referencing roles.id)
 - admin -> boolean
 - token -> str (hashed)
