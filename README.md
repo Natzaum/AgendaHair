@@ -2,7 +2,8 @@
 Um software a ser desenvolvido para cadastro de usuários e agendamento de horários para atendimento.
 
 
-A build executavel do electron está localizada em dist/win-unpacked/agendahair.exe
+A build executavel do electron fica localizada em dist/win-unpacked/agendahair.exe
+(é necessário buildar antes)
 
 ## Passo 1: Instalar Dependências do Backend
 
@@ -11,7 +12,6 @@ Certifique-se de ter o Node.js e o npm instalados em seu sistema. Em seguida, in
 ```bash
 npm install
 ```
-
 
 ## Passo 2: Configuração do Docker Compose
 
@@ -28,15 +28,18 @@ docker-compose up -d
 
 Este comando irá inicializar os serviços definidos no arquivo `docker-compose.yml`.
 
-## Passo 4: Executar a Aplicação Electron que está em dist/win-unpacked/agendahair.exe
+## Passo 4: Buildar a aplicação Electron
 
+```bash
+npm run build
+```
+O arquivo .exe vai aparecer em `dist/win-unpacked`, basta executar o agendahair.exe
 
 ## Passo 5: Rodar o Backend
 
 ```bash
 npm run server
 ```
-
 
 ## Rotas do Backend
 
