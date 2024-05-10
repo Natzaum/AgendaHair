@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:alpine
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: agendahair
+      POSTGRES_PASSWORD: FOPmefpom12#
+      POSTGRES_DB: agendahair-db
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
