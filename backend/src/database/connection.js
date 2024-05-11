@@ -5,7 +5,7 @@ const client = new Client({
     database: 'agendahair-db',
     host:'localhost',
     password: 'FOPmefpom12#',
-    port: 5432,
+    port: 5433,
 })
 
 client.connect()
