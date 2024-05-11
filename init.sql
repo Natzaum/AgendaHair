@@ -1,3 +1,9 @@
+CREATE TABLE IF NOT EXISTS roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    slug VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
@@ -14,7 +20,6 @@ CREATE TABLE IF NOT EXISTS users (
     token VARCHAR(100),
     available JSON
 );
-
 
 CREATE TABLE IF NOT EXISTS services (
     id SERIAL PRIMARY KEY,
@@ -38,8 +43,7 @@ CREATE TABLE IF NOT EXISTS locations (
 );
 
 
-CREATE TABLE IF NOT EXISTS roles (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    slug VARCHAR(50) NOT NULL
-);
+INSERT INTO roles (name, slug)
+VALUES 
+('Cliente', 'CLIENT'),
+('Prestador de serviços', 'PROVIDER');
