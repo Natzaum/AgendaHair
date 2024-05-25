@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-const db = require('../database/connection');
 const { validationResult } = require('express-validator');
 const { matchedData } = require('express-validator');
+const user = require('../models/userModels')
 
 const register = async (req, res) => {
     const errors = validationResult(req);
@@ -16,17 +16,14 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(validData.password, 10);
     
+// e se ja existe uma conta que foi criada com o email informado a conta não deve ser criada no banco de dados
+// então a API vai retornar que a conta ja existe, utilizando o res.status(409).json{message: 'conta ja existe'}
+
+
     try {
-        const result = await db.query('SELECT * FROM roles WHERE slug = $1', [validData.type]);
-        const roleId = result.rows[0]; 
 
+        const response = await user.createUser(validData)
 
-        const query = {
-            text: 'INSERT INTO users(name, email, password, roleid, sex, genre, cpf, cnpj) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',
-            values: [validData.name, validData.email, hashedPassword, roleId.id, validData.sex, validData.genre, validData.CPF, validData.CNPJ],
-          };
-          
-        const response = await db.query(query);        
         console.log(response);
 
         res.status(200).json({ message: 'Usuário registrado com sucesso' });
@@ -43,15 +40,10 @@ const login = async (req, res) => {
     }
 
     const validData = matchedData(req);
-
+    
     try {
-
-        const result = await db.query('SELECT * FROM users WHERE email = $1', [validData.email]);
-        const user = result.rows[0]; // O primeiro usuário encontrado com o e-mail fornecido
-
-        if (!user) {
-            return res.status(401).json({ message: 'Credenciais inválidas' });
-        }
+        console.log(errors)
+        const user = await user.getUserByEmail()
 
         const passwordMatch = await bcrypt.compare(validData.password, user.password);
         if (!passwordMatch) {

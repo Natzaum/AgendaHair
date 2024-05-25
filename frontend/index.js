@@ -4,10 +4,11 @@ let mainWindow
 
 app.on('ready', () => {
 
-    mainWindow = new BrowserWindow({
-        height: 1080,
-        width: 1920,
-    })
+    mainWindow = new BrowserWindow()
+
+    mainWindow.setMenu(null)
 
     mainWindow.loadFile('frontend/index.html')
+
+    mainWindow.maximize()
 })

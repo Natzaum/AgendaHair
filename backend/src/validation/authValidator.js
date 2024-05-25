@@ -79,7 +79,7 @@ module.exports = {
             },
             custom: {
                 options: (value) => {
-                    if(!isValidEmailDomain(value)){
+                    if (!isValidEmailDomain(value)) {
                         throw new Error("O dominio do email não é permitido")
                     }
                     return true
@@ -101,76 +101,33 @@ module.exports = {
 
         CPF: {
             optional: { options: { nullable: true } },
-                custom: {
-                    options: (value) => validateCPF(value),
-                    errorMessage: 'CPF inválido'
-                }
+            custom: {
+                options: (value) => validateCPF(value),
+                errorMessage: 'CPF inválido'
+            }
         },
 
         CNPJ: {
             optional: { options: { nullable: true } },
-                custom: {
-                    options: (value) => validateCNPJ(value),
-                    errorMessage: 'CNPJ inválido'
-                }
+            custom: {
+                options: (value) => validateCNPJ(value),
+                errorMessage: 'CNPJ inválido'
+            }
         },
-        
+
         type: {
             isIn: {
                 options: [["CLIENT", "PROVIDER"]]
-              },
-              errorMessage: "Type inválido"
+            },
+            errorMessage: "Type inválido"
         },
 
         sex: {
             isIn: {
                 options: [["Masculino", "Feminino", "Indefinido"]]
             }
-        },
-
-        genre: {
-            isIn: {
-                options: [[
-                "Heterossexual",
-                "Homossexual",
-                "Bissexual",
-                "Pansexual",
-                "Assexual",
-                "Demissexual",
-                "Queer",
-                "Polissexual",
-                "Omnissexual",
-                "Androsexual",
-                "Ginessexual",
-                "Skoliosexual",
-                "Graysexual",
-                "Aromântico",
-                "Biromântico",
-                "Panromântico",
-                "Heterorromântico",
-                "Homorromântico",
-                "Demiromântico",
-                "Arromântico",
-                "Neutrois",
-                "Bigênero",
-                "Trigênero",
-                "Pangênero",
-                "Aporagênero",
-                "Multigênero",
-                "Nongênero",
-                "Agênero",
-                "Intergênero",
-                "Fluxo-gênero",
-                "Não-binário",
-                "Gênero-fluido",
-                "Questionando",
-                "Cisgênero",
-                "Intersexo",
-                "Transgênero"
-            ]]
-            }
         }
-            }),
+    }),
 
     loginSchema: checkSchema.checkSchema({
         email: {
@@ -194,6 +151,6 @@ module.exports = {
             },
             errorMessage: "Senha incorreta"
         },
-        
+
     })
 }
