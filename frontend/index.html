@@ -20,6 +20,9 @@
                 <p class="description description-primary">Continue conectado</p>
                 <p class="description description-primary">Faça o login com as suas informações pessoais</p>
                 <button id="signin" class="btn btn-primary">Entrar</button>
+                <a href="pages/provider/providerHome.html">
+                    <button onclick="open()">Teste</button>
+                </a>
             </div>
 
             <div class="second-column" style="height: 100%; overflow-y: auto;">
@@ -27,7 +30,7 @@
                 <form id="signup-form" class="form">
                     <label class="label-input" for="">
                         <i class="far fa-user icon-modify"></i>
-                        <input name="name" type="text" placeholder="Nome" maxlength="50">
+                        <input name="name" type="text" placeholder="Nome ou nome da loja" maxlength="50">
                     </label>
 
                     <label class="label-input" for="">
@@ -94,6 +97,11 @@
         </div>
     </div>
     <script src="js/app.js"></script>
+    <script>
+        function open() {
+            window.location.href = 'providerHome.html';
+        }
+    </script>
 </body>
 
 </html>
