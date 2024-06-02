@@ -1,0 +1,145 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #E4E4E4;
+}
+
+.container {
+    display: flex;
+    width: 800px;
+    height: 70%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.sidebar {
+    width: 50px;
+    background-color: #3B61A1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 0 0 20px;
+}
+
+.home-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.content {
+    flex: 1;
+    background-color: #F4F4F4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 0 0 20px 0;
+}
+
+.content form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.content h2 {
+    color: #3B61A1;
+    text-align: center;
+}
+
+.content label {
+    margin-top: 10px;
+    color: #3B61A1;
+}
+
+.content input {
+    padding: 10px;
+    border: 2px solid #3B61A1;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.buttons .voltar {
+    background-color: #E94E3F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.buttons .proximo {
+    background-color: #619CA1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.image-container {
+    width: 300px;
+    background-color: #3B61A1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 0 20px 20px 0;
+}
+
+.image-container img {
+    width: 400px;
+    height: auto;
+}
+
+.brand {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+
+
+
+
+.providerSelect{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+.providerSelect button{
+    transition-duration: 0.4s;
+    display: flex;
+    margin-top: 20px;
+    background-color: #3B61A1; 
+    color: rgb(255, 255, 255); 
+    border: 2px solid #3B61A1;
+    border-radius: 20px;
+    cursor: pointer;
+    height: 40px;
+    align-items: center;
+    font-size: larger;
+    width: 320px;
+}
+
+.providerSelect button:hover {
+    background-color: #cbcbcb;
+    color: rgb(0, 0, 0);
+}
+
+.providerSelect button img {
+    width: 30px;
+}
