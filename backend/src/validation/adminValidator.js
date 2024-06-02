@@ -1,13 +1,10 @@
 const checkSchema = require('express-validator')
-const allowedDomains = ['gmail.com', 'hotmail.com', 'yahoo.com'];
+const {validateCPF,validateCNPJ,isValidEmailDomain} = require('./validation-functions/functions')
 
-const isValidEmailDomain = (value) => {
-    const emailDomain = value.split('@')[1];
-    return allowedDomains.includes(emailDomain);
-};
+
 
 module.exports = {
-    createUserSchema: checkSchema.checkSchema({
+    updateUserSchema: checkSchema.checkSchema({
         name: {
             isLength: {
                 options: {
@@ -27,97 +24,44 @@ module.exports = {
             },
             custom: {
                 options: (value) => {
-                    if(!isValidEmailDomain){
-                        throw new Error("O dominio do email não é permitido!")
+                    if (!isValidEmailDomain(value)) {
+                        throw new Error("O dominio do email não é permitido")
                     }
                     return true
                 }
             },
             isEmail: true,
-            errorMessage: "Email invalido!"
+            errorMessage: "Email inválido"
         },
 
-        password: {
-            isLength: {
-                options: {
-                    min: 8,
-                    max: 100
-                }
-            },
-            errorMessage: "Alterção mal sucedida"
-        }
-    }),
-
-    updateUserSchema: checkSchema.checkSchema({
-        name: {
-            isLength: {
-                options: {
-                    min: 6,
-                    max: 50
-                }
-            },
-            errorMessage: "Alteração mal sucedida"
-        },
-
-        email: {
-            isLength: {
-                options: {
-                    min: 7,
-                    max: 50
-                }
-            },
+        CPF: {
+            optional: { options: { nullable: true } },
             custom: {
-                options: (value) => {
-                    if(!isValidEmailDomain){
-                        throw new Error("O dominio do email não é permitido!")
-                    }
-                    return true
-                }
-            },
-            errorMessage: "Alteração mal suedida"
-        },
-        
-        password: {
-            isLength: {
-                options: {
-                    min: 8,
-                    max:100
-                }
-            },
-            errorMessage: "A senha não possui os requisitos necessários"
-        }
-    }),
-
-    deleteUserSchema: checkSchema.checkSchema({
-        name: {
-            isLength: {
-                options: {
-                    min: 6,
-                    max: 50
-                }
-            },
-            errorMessage: "Não foi possivel deletar o nome do usuario"
+                options: (value) => validateCPF(value),
+                errorMessage: 'CPF inválido'
+            }
         },
 
-        email: {
-            isLength: {
-                options: {
-                    min: 7,
-                    max: 50
-                }
-            },
-            errorMessage: "Não foi possivel deletar o e-mail do usuario"
+        CNPJ: {
+            optional: { options: { nullable: true } },
+            custom: {
+                options: (value) => validateCNPJ(value),
+                errorMessage: 'CNPJ inválido'
+            }
         },
-        
-        password: {
-            isLength: {
-                options: {
-                    min: 8,
-                    max:100
-                }
+
+        type: {
+            isIn: {
+                options: [["CLIENT", "PROVIDER", "ADMIN"]]
             },
-            errorMessage: "Não foi possivel deletar a senha do usuario"
+            errorMessage: "Type inválido"
+        },
+
+        sex: {
+            isIn: {
+                options: [["Masculino", "Feminino", "Indefinido"]]
+            }
         }
+        
     })
-
 }
