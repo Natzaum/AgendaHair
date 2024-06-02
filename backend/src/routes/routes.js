@@ -1,27 +1,35 @@
 const { Router } = require('express')
+const passport = require('../config/passport')
+const {validateUserId} = require('../validation/params')
 const authValidator = require('../validation/authValidator')
 const authController = require('../controllers/authController')
+const clientController = require('../controllers/clientController')
 const adminValidator = require('../validation/adminValidator')
 const adminController = require('../controllers/adminController')
+const middlewares = require('../middlewares/global')
 
 const route = Router()
 
-route.post("/register", authValidator.registerSchema, authController.register)
-route.post("/login", authValidator.loginSchema, authController.login)
+route.post("/register", authValidator.registerSchema, middlewares.validationErrors, authController.register);
+route.post("/login", authValidator.loginSchema, middlewares.validationErrors, authController.login);
 
-route.post("/admin/user/create", adminValidator.createUserSchema, adminController.createUser)
-route.post("/admin/user/:id/update", adminValidator.updateUserSchema, adminController.updateUser)
-route.delete("/admin/user/:id/delete", adminValidator.deleteUserSchema, adminController.deleteUser)
+//rotas administrativas
+route.get("/admin/users", passport.isAdmin, adminController.getAllUsers); 
+route.put("/admin/users/:id",  validateUserId, passport.isAdmin, adminValidator.updateUserSchema, middlewares.validationErrors, adminController.updateUser); 
+route.delete("/admin/users/:id", validateUserId, passport.isAdmin, middlewares.validationErrors, adminController.deleteUser); 
 
-/*route.put("/provider-tool/services/create", providerValidator.createSchema, providerController.putUser)
-route.post("/provider-tool/services/:id/update", providerValidator.updateSchema, providerController.postUser)
-route.delete("/provider-tool/services/:id/delete", providerValidator.deleteSchema, providerController.deleteUser)
+// // rotas que os profisionais usam para criar/editar/deletar serviços
+// route.post("/provider/services", providerValidator.createSchema, middlewares.validationErrors, providerController.createService); 
+// route.put("/provider/services/:id", providerValidator.updateSchema, middlewares.validationErrors, providerController.updateService); 
+// route.delete("/provider/services/:id", providerValidator.deleteSchema, middlewares.validationErrors, providerController.deleteService); 
 
-route.get("/providers/:id/services", clientConntroller.getProviderServicesById)
-route.get("/locations", clientController.getLocations)
+// // rota que os clientes usam para visualizar os serviços
+route.get("/providers", clientController.getAllProviders)
+route.get("/providers/services", clientController.getAllServices)
+route.get("/providers/:id/services",validateUserId, clientController.getProviderServicesById)
 
-route.post("/services/:id/post-comment", clientValidator.postSchema, clientController.postUser)
+// localizações
+route.get("/locations", clientController.getLocations);
 
-route.delete("/services/:id/delete-comment",clientValidator.deleteSchema, clientController.deleteUser)
-*/
+
 module.exports = route
