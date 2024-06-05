@@ -143,3 +143,25 @@ body {
 .providerSelect button img {
     width: 30px;
 }
+
+
+
+
+
+.clientes-container {
+    background-color: #3B61A1;
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    margin: 20px 0;
+}
+
+.clientes-list {
+    list-style: none;
+    padding: 0;
+    color: white;
+}
+
+.clientes-list li {
+    margin-bottom: 10px;
+}
