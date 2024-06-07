@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgendaHair Form</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        a.no-underline {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="./clientHome.html">
+                <img src="../../assets/homeIcon.png" alt="Home" class="home-icon">
+            </a>
+        </div>
+        <div class="content">
+            <div class="providerSelect">
+                <h2>Trabalhos disponíveis para o seu tipo de pesquisa</h2>
+                <div class="clientes-container">
+                    <ul class="clientes-list">
+                        <li>
+                            <a href="javascript:void(0)" class="no-underline" onclick="handleSelection('Cabeleireiro cabeludo')">
+                                Cabeleireiro cabeludo - corte masculino - 10/06/2024 - 14:00
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="buttons">
+                <a href="./clientNewAppointment.html">
+                    <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                </a>
+            </div>
+        </div>
+        <div class="image-container">
+            <img src="../../assets/agendaHairIcon.png" alt="Hair Salon">
+            <p class="brand">AgendaHair</p>
+        </div>
+    </div>
+
+    <script>
+        function handleSelection(service) {
+            alert(`Você selecionou: ${service}`);
+            
+            window.location.href = './clientHome.html';
+        }
+    </script>
+</body>
+</html>

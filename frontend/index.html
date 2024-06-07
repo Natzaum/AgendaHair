@@ -21,7 +21,10 @@
                 <p class="description description-primary">Faça o login com as suas informações pessoais</p>
                 <button id="signin" class="btn btn-primary">Entrar</button>
                 <a href="pages/provider/providerHome.html">
-                    <button onclick="open()">Teste</button>
+                    <button onclick="openProvider()">Provider</button>
+                </a>
+                <a href="pages/Client/clientHome.html">
+                    <button onclick="openClient()">Client</button>
                 </a>
             </div>
 
@@ -98,8 +101,11 @@
     </div>
     <script src="js/app.js"></script>
     <script>
-        function open() {
-            window.location.href = 'providerHome.html';
+        function openProvider() {
+            window.location.href = 'providerHome.html'
+        }
+        function openClient(){
+            window.location.href = 'clientHome.html'
         }
     </script>
 </body>
