@@ -58,11 +58,11 @@ module.exports = {
             }
         },
 
-        type: {
+        role: {
             isIn: {
                 options: [["CLIENT", "PROVIDER"]]
             },
-            errorMessage: "Type inválido"
+            errorMessage: "Role inválido"
         },
 
         sex: {
