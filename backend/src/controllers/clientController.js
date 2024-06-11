@@ -19,6 +19,24 @@ const getLocations = async (req, res) =>{
 }
 
 
+const getCategories = async (req, res) =>{
+    
+    try {
+        const categories = await clientModel.getAllCategories()
+
+        if (categories.length == 0) {
+            return res.status(404).json({message:'Nenhuma categoria encontrada'})
+        }
+        res.status(200).json({message:'Encontrado', content:categories})
+    }
+
+    catch(err){
+        console.error('Erro ao obter categories:', err);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
+
+
 const getAllServices = async (req, res) =>{
     try {
         const services = await clientModel.getAllServices()
@@ -74,7 +92,8 @@ const getProviderServicesById = async (req, res) =>{
 
 module.exports = {
     getLocations,
+    getCategories,
     getAllServices,
     getProviderServicesById,
-    getAllProviders
+    getAllProviders,
 }
