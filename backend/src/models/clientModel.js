@@ -1,4 +1,5 @@
 const db = require('../database/connection')
+const admin = require('./adminModel')
 
 
 const getLocations = async () => {
@@ -27,7 +28,7 @@ const getAllServices = async () => {
     try {
         const services = await db.query('SELECT * FROM services')
         for (const service of services.rows) {
-            let provider = await getUserById(service.provider_id)
+            let provider = await admin.getUserById(service.provider_id)
             service.provider = {name:provider[0].name}
 
             let category = await getCategoryById(service.category_id)
@@ -49,10 +50,22 @@ const getAllProviders = async () => {
     try {
         const providers = await db.query('SELECT * FROM professionals')
         for (const provider of providers.rows) {
-            let user = await getUserById(provider.user_id)
+            let user = await admin.getUserById(provider.user_id)
             provider.provider = {name:user[0].name, email:user[0].email, phone:user[0].phone, cnpj:user[0].cnpj, sex:user[0].sex}
         }
         return providers.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+
+const getAllCategories = async () => {
+    try {
+        const services = await db.query('SELECT * FROM service_categories')
+        return services.rows
     }
     catch (err) {
         console.log(err)
@@ -78,7 +91,7 @@ const getProviderServicesById = async (provider_id) => {
     try {
         const services = await db.query('SELECT * FROM services WHERE provider_id = $1', [provider_id])
         for (const service of services.rows) {
-            let provider = await getUserById(service.provider_id)
+            let provider = await admin.getUserById(service.provider_id)
             service.provider = {name:provider[0].name, email:provider[0].email}
 
             let category = await getCategoryById(service.category_id)
@@ -102,5 +115,6 @@ module.exports = {
     getAllServices,
     getProviderServicesById,
     getCategoryById,
-    getAllProviders
+    getAllProviders,
+    getAllCategories
 }
