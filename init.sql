@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    slug VARCHAR(50) NOT NULL
+    slug VARCHAR(50) NOT NULL,
+    ref VARCHAR(20)
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -20,6 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS clients (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
+    available BOOLEAN,
     observations TEXT
 );
 
@@ -30,6 +32,12 @@ CREATE TABLE IF NOT EXISTS professionals (
     observations TEXT
 );
 
+CREATE TABLE IF NOT EXISTS admins (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    available BOOLEAN,
+    observations TEXT
+);
 
 CREATE TABLE IF NOT EXISTS service_categories (
     id SERIAL PRIMARY KEY,
@@ -44,7 +52,10 @@ CREATE TABLE IF NOT EXISTS locations (
     cep VARCHAR(10),
     city VARCHAR(100),
     state VARCHAR(50),
-    number VARCHAR(10)
+    number VARCHAR(10),
+    available_days TEXT[], 
+    open_time TIME, 
+    close_time TIME
 );
 
 CREATE TABLE IF NOT EXISTS services (
@@ -77,11 +88,11 @@ CREATE INDEX idx_schedules_client_id ON schedules(client_id);
 CREATE INDEX idx_schedules_service_id ON schedules(service_id);
 
 -- Insert initial roles
-INSERT INTO roles (name, slug)
+INSERT INTO roles (name, slug, ref)
 VALUES 
-('Cliente', 'CLIENT'),
-('Prestador de serviços', 'PROVIDER'),
-('Administrador', 'ADMIN');
+('Cliente', 'CLIENT','clients'),
+('Prestador de serviços', 'PROVIDER', 'professionals'),
+('Administrador', 'ADMIN', 'admins');
 
 
 INSERT INTO service_categories (name, slug, description)
@@ -92,9 +103,8 @@ VALUES
 
 INSERT INTO locations (name, street, cep, city, state, number)
 VALUES 
-('Salão Estilo Único', 'Rua das Flores', '12345-678', 'Carazinho', 'RS', '227'),
-('Beleza & Cia', 'Avenida Central', '98765-432', 'Rio de Janeiro', 'RJ', '200');
-
+('Salão Estilo Único', 'Rua das Flores', '12345-678', 'Carazinho', 'RS', '227', ARRAY['Monday', 'Wednesday', 'Friday'], '08:00:00', '18:00:00'),
+('Beleza & Cia', 'Avenida Central', '98765-432', 'Rio de Janeiro', 'RJ', '200',  ARRAY['Tuesday', 'Thursday', 'Saturday'], '09:00:00', '17:00:00');
 
 -- Inserir dois usuários na tabela users
 INSERT INTO users (name, email, password, phone, cpf, cnpj, sex, role_id, admin)
