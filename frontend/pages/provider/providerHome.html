@@ -1,35 +1,236 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgendaHair Form</title>
     <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../../js/provider/provider.js" async></script>
 </head>
+
 <body>
     <div class="container">
         <div class="sidebar">
-            <a href="./providerHome.html">
-            <img src="../../assets/homeIcon.png" alt="Home" class="home-icon">
+            <a href="#" onclick="showPage('providerHome')">
+                <img src="../../assets/homeIcon.png" alt="Home" class="home-icon">
             </a>
         </div>
         <div class="content">
-            <div class="providerSelect">
-                <h2>Bem vindo provedor, selecione a opção desejada</h2>
-                
-                <a href="./providerServices.html">
-                <button for="servicos"><img src="../../assets/services.png"/>Serviços</button>
-                </a>
-                <a href="./providerMesssages.html">
-                <button for="mensagens"><img src="../../assets/message.png"/>Mensagens</button>
-                </a>
-                
+            <div id="providerHome" class="page">
+                <div class="providerSelect">
+                    <h2>Bem vindo provedor, selecione a opção desejada</h2>
+
+                    <a href="#" onclick="showPage('providerServices')">
+                        <button for="servicos"><img src="../../assets/services.png">Serviços</button>
+                    </a>
+                    <a href="#" onclick="showPage('providerMesssages')">
+                        <button for="mensagens"><img src="../../assets/message.png">Mensagens</button>
+                    </a>
+
+                </div>
             </div>
+
+            <div id="providerAgender" class="page hidden">
+                <form>
+                    <h2>Conte-nos aonde fica seu estabelecimento</h2>
+
+                    <div style="display: flex;width: 310px;font-size: 11px;text-align: center;justify-content: space-between;">
+                        <div style="width: 120px;">
+                            <label for="inicio-horario">Hora do atendimento (início):</label>
+                            <input type="time" id="inicio-horario" name="inicio-horario">
+                        </div>
+                        <div style="width: 120px;">
+                            <label for="fim-horario">Hora do atendimento (fim):</label>
+                            <input type="time" id="fim-horario" name="fim-horario">
+                        </div>
+                    </div>
+
+
+                    <label for="dias-disponiveis">Dias disponíveis:</label>
+                    <div class="dias-grid">
+                        <label style="color: white;" ><input type="checkbox" name="dias-disponiveis" value="segunda"> Segunda-feira</label>
+                        <label style="color: white;"><input type="checkbox" name="dias-disponiveis" value="terca"> Terça-feira</label>
+                        <label style="color: white;"><input type="checkbox" name="dias-disponiveis" value="quarta"> Quarta-feira</label>
+                        <label style="color: white;"><input type="checkbox" name="dias-disponiveis" value="quinta"> Quinta-feira</label>
+                        <label style="color: white;"><input type="checkbox" name="dias-disponiveis" value="sexta"> Sexta-feira</label>
+                        <label style="color: white;"><input type="checkbox" name="dias-disponiveis" value="sabado"> Sábado</label>
+                        <label style="color: white;"><input type="checkbox" name="dias-disponiveis" value="domingo"> Domingo</label>
+                    </div>
+
+
+                    <label for="categoria">Tipo de trabalho:</label>
+                    <select style="height: 45px;border: 2px solid #3B61A1;border-radius: 20px;margin-top: 5px;height: 35px;" class="label-input" id="categoria" name="categoria">
+                    <option value="HAIR">Cabelereiro(a)</option><option value="MANICURE">Manicure</option><option value="MAKE">Maquiador(a)</option></select>
+
+
+                    <label for="preco">Preço:</label>
+                    <input type="number" id="preco" name="preco" min="1" max="9999">
+
+                    <div class="buttons">
+                        <a href="#" onclick="showPage('providerLocation')">
+                            <button type="button" class="voltar">Voltar</button>
+                        </a>
+                        <!-- onclick="alert('Salvo com sucesso!'); window.location.href='./providerHome.html';" -->
+                        <input style="background-color: #619CA1;color: white;border: none;padding: 10px 20px;border-radius: 20px;cursor: pointer;height: 35px;margin-top: 0;
+                    " type="submit" value="Submit">
+
+                    </div>
+                </form>
+            </div>
+            
+            <div id="providerLocation" class="page hidden">
+                <form>
+                    <h2>Conte-nos aonde fica seu estabelecimento</h2>
+
+                    <label for="cep">CEP:</label>
+                    <input type="text" id="cep" name="cep">
+
+                    <label for="estado">Estado:</label>
+                    <input type="text" id="estado" name="estado">
+
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade">
+
+                    <label for="numero">Número:</label>
+                    <input type="text" id="numero" name="numero">
+
+                    <div class="buttons">
+                        <a href="#" onclick="showPage('providerServices')">
+                            <button type="button" class="voltar">Voltar</button>
+                        </a>
+                        <a href="#" onclick="showPage('providerAgender')">
+                            <button type="button" class="proximo">Próximo</button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div id="providerMesssages" class="page hidden">
+                <div class="providerSelect">
+                    <h2>Bem vindo provedor, selecione a opção desejada</h2>
+
+                    <a href="#" onclick="showPage('providerSendMessage')">
+                        <button for="servicos">Enviar mensagem</button>
+                    </a>
+                    <a href="#" onclick="showPage('providerViewMessage')">
+                        <button for="mensagens">Ver mensagens</button>
+                    </a>
+                    <div class="buttons">
+                        <a href="#" onclick="showPage('providerHome')">
+                            <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="providerPlan" class="page hidden">
+                <div class="providerSelect">
+
+                    <h2>Consultar agendamento de clientes</h2>
+                    <div class="clientes-container">
+                        <ul class="clientes-list">
+                            <li>Maria Silva - 10/06/2024 - 14:00</li>
+                            <li>João Pereira - 10/06/2024 - 15:00</li>
+                            <li>Ana Costa - 10/06/2024 - 16:00</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="#" onclick="showPage('providerServices')">
+                        <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                    </a>
+                </div>
+            </div>
+
+            <div id="providerSendMessage" class="page hidden">
+                <form>
+
+                    <h2>Enviar mensagem para cliente</h2>
+
+                    <label for="email">Email do cliente:</label>
+                    <input type="text" id="email" name="email">
+
+                    <label for="mensagem">Mensagem:</label>
+                    <input type="text" id="mensagem" name="mensagem">
+                    <div class="buttons">
+                        <a href="#" onclick="showPage('providerMesssages')">
+                            <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                        </a>
+                        <button type="button" class="proximo" onclick="alert('Mensagem enviada com sucesso!'); window.location.href='./providerHome.html';">Enviar</button>
+                
+            </div></form>
+
+            
+
+            
+
         </div>
-        <div class="image-container">
-            <img src="../../assets/agendaHairIcon.png" alt="Hair Salon">
-            <p class="brand">AgendaHair</p>
-        </div>
+
+    <div id="providerViewMessage" class="page hidden">
+                <div class="providerSelect">
+
+                    <h2>Visualizar mensagens de clientes</h2>
+                    <div class="clientes-container">
+                        <ul class="clientes-list">
+                            <li>Maria Silva - oi, gostaria de cancelar</li>
+                            <li>João Pereira - confirmo presença</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="#" onclick="showPage('providerMesssages')">
+                        <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                    </a>
+                </div>
+            </div><div id="providerServices" class="page hidden">
+                <div class="providerSelect">
+                    <h2>Bem vindo provedor, selecione a opção desejada</h2>
+
+                    <a href="#" onclick="showPage('providerLocation')">
+                        <button id="servicos-btn" for="servicos"><img src="../../assets/services.png">Novo serviço</button>
+                    </a>
+                    <a href="#" onclick="showPage('providerPlan')">
+                        <button id="mensagens-btn" for="mensagens"><img src="../../assets/message.png">Consultar agendamentos</button>
+                    </a>
+                    <div class="buttons">
+                        <a href="#" onclick="showPage('providerHome')">
+                            <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                        </a>
+                    </div>
+                </div>
+            </div></div>
+    <div class="image-container">
+        <img src="../../assets/agendaHairIcon.png" alt="Hair Salon">
+        <p class="brand">AgendaHair</p>
     </div>
-</body>
+    <script>
+        let account = JSON.parse(localStorage.getItem('account'))
+        if (!account || account.role.slug == 'CLIENT') {
+            setTimeout(() => {
+                createCustomAlert('Usuário não autenticado ou sem permissão')
+                
+            }, 2000);
+            setTimeout(() => {
+                window.location.href = '../../index.html'
+            }, 5000);
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function handleSelection(service) {
+            alert(`Você selecionou: ${service}`);
+            showPage('clientHome');
+        }
+    </script>
+
+
+</div></body>
+
 </html>
