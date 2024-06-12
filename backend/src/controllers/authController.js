@@ -13,15 +13,15 @@ const register = async (req, res) => {
             return res.status(401).json({ message: 'Conta já existente' });
         }
 
-        validData.token = generatejwt({ name: validData.name, email: validData.email, type: validData.type, isAdmin: false });
+        validData.token = generatejwt({ name: validData.name, email: validData.email, role: validData.role, isAdmin: false });
 
         for (const item of Object.keys(validData)) {
-            if (!['email', 'type', 'sex', 'CPF', 'CNPJ', 'token'].includes(item)) {
+            if (!['email', 'role', 'sex', 'CPF', 'CNPJ', 'token'].includes(item)) {
                 delete validData[item];
             }
         }
-
-        res.status(200).json({ message: 'Usuário registrado com sucesso', account: validData });
+        validData.role = {id: null, name: null, slug: validData.role}
+        res.status(200).json({ message: 'Usuário registrado com sucesso', user: validData });
     } catch (error) {
         console.error('Erro ao registrar usuário:', error);
         res.status(500).json({ message: 'Erro interno do servidor' });
@@ -49,7 +49,7 @@ const login = async (req, res) => {
             user: {
                 name: account.name,
                 email: validData.email,
-                type: account.type,
+                role: account.role,
                 sex: account.sex,
                 CPF: account.cpf,
                 CNPJ: account.cnpj,
