@@ -5,31 +5,229 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgendaHair Form</title>
     <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../../js/client/client.js" async></script>
+    <script src="../../js/app.js" async></script>
+
+    <style>
+        a.no-underline {
+            text-decoration: none;
+        }
+        .hidden {
+            display: none;
+        }
+        #modalContainer {
+            background-color:rgba(0, 0, 0, 0.3);
+            position:absolute;
+            width:100%;
+            height:100%;
+            top:0px;
+            left:0px;
+            z-index:10000;
+            background-image:url(tp.png); /* required by MSIE to prevent actions on lower z-index elements */
+        }
+
+    </style>
 </head>
 <body>
+
     <div class="container">
+
         <div class="sidebar">
-            <a href="./clientHome.html">
-            <img src="../../assets/homeIcon.png" alt="Home" class="home-icon">
+            <a href="#" onclick="showPage('clientHome')">
+                <img src="../../assets/homeIcon.png" alt="Home" class="home-icon">
             </a>
         </div>
         <div class="content">
-            <div class="providerSelect">
-                <h2>Bem vindo cliente, selecione a opção desejada</h2>
-                
-                <a href="./clientServices.html">
-                <button for="servicos"><img src="../../assets/services.png"/>Agendamentos</button>
-                </a>
-                <a href="./clientMessages.html">
-                <button for="mensagens"><img src="../../assets/message.png"/>Mensagens</button>
-                </a>
-                
+
+            <div id="clientHome" class="page">
+                <div class="providerSelect">
+                    <h2>Bem vindo cliente, selecione a opção desejada</h2>
+                    <a href="#" onclick="showPage('clientServices')">
+                        <button><img src="../../assets/services.png">Agendamentos</button>
+                    </a>
+                    <a href="#" onclick="showPage('clientMessages')">
+                        <button><img src="../../assets/message.png">Mensagens</button>
+                    </a>
+                </div>
             </div>
+
+            <div id="clientCheckAppointments" class="page hidden">
+                <div class="providerSelect">
+                    <h2>Trabalhos disponíveis para o seu tipo de pesquisa</h2>
+                    <div class="clientes-container">
+                        <ul class="clientes-list">
+                            <li>
+                                <a href="#" class="no-underline" onclick="handleSelection('Cabeleireiro cabeludo')">
+                                    Cabeleireiro cabeludo - corte masculino - 10/06/2024 - 14:00
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a href="#" onclick="showPage('clientHome')">
+                        <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                    </a>
+                </div>
+            </div>
+
+            <div id="clientMessages" class="page hidden">
+                <div class="providerSelect">
+                    <h2>Bem vindo cliente, selecione a opção desejada</h2>
+                    <a href="#" onclick="showPage('clientSendMessage')">
+                        <button>Enviar mensagem</button>
+                    </a>
+                    <a href="#" onclick="showPage('clientViewMessages')">
+                        <button>Ver mensagens</button>
+                    </a>
+                </div>
+                <div class="buttons">
+                    <a href="#" onclick="showPage('clientHome')">
+                        <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                    </a>
+                </div>
+            </div>
+
+
+            <div id="clientNewAppointment" class="page hidden">
+                <form>
+                    <h2>Algumas informações antes de prosseguir</h2>
+
+                    <label for="categoria">Tipo de trabalho:</label>
+                    <select style="height: 45px;border: 2px solid #3B61A1;border-radius: 20px;margin-top: 5px;height: 35px;" class="label-input" id="categoria" name="categoria">
+                    <option value="HAIR">Cabelereiro(a)</option><option value="MANICURE">Manicure</option><option value="MAKE">Maquiador(a)</option></select>
+                    
+                    <label for="dia">Dia:</label>
+                    <input type="date" id="dia" name="dia">
+                    
+                    <div class="buttons">
+
+                        <a onclick="showPage('clientServices')">
+                        <button type="button" class="voltar">Voltar</button>
+                        </a>
+                        <a onclick="showPage('clientCheckAppointments')">
+                        <button type="button" class="proximo">Próximo</button>
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+
+            <div id="clientPlan" class="page hidden">
+                <div class="providerSelect">
+
+                    <h2>Consultar seus agendamentos</h2>
+                    <div class="clientes-container">
+                        <ul class="clientes-list">
+                            <li>Cabelereiro cabeludo - corte masculino - 10/06/2024 - 14:00</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a onclick="showPage('clientServices')">
+                    <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                    </a>
+                </div>
+            </div>
+
+
+            <div id="clientServices" class="page hidden">
+                <div class="providerSelect">
+                    <h2>Bem vindo cliente, selecione a opção desejada</h2>
+                    
+                    <a onclick="showPage('clientNewAppointment')">
+                    <button for="servicos"><img src="../../assets/services.png">Novo agendamento</button>
+                    </a>
+                    <a onclick="showPage('clientPlan')">
+                    <button for="mensagens"><img src="../../assets/message.png">Consultar agendamentos</button>
+                    </a>
+                    <div class="buttons">
+                        <a onclick="showPage('clientHome')">
+                        <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                        </a>
+                    </div>
+                </div>
+            </div><div id="clientViewMessages" class="page hidden">
+                <div class="providerSelect">
+
+                    <h2>Visualizar mensagens de provedores</h2>
+                    <div class="clientes-container">
+                        <ul class="clientes-list">
+                            <li>Cabelereiro cabeludo - nosso trabalho está confirmado!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <a onclick="showPage('clientMessages')">
+                    <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                    </a>
+                </div>
+        </div><div id="clientSendMessage" class="page hidden">
+                <form>
+
+                    <h2>Enviar mensagem para provedor</h2>
+
+
+                    <label for="provedores">Nome do provedor:</label>
+                    <select style="height: 45px;border: 2px solid #3B61A1;border-radius: 20px;margin-top: 5px;height: 35px;" class="label-input" id="provedores" name="provedores">
+                    <option value="cabelkudo 12">cabelkudo 12</option></select>
+                    
+                    <label for="estado">Mensagem:</label>
+                    <input type="text" id="estado" name="estado">
+                    <div class="buttons">
+                        <a onclick="showPage('clientMessages')">
+                        <button style="width: auto;" type="button" class="voltar">Voltar</button>
+                        </a>
+                        <button type="button" class="proximo" onclick="alert('Mensagem enviada com sucesso!'); window.location.href='./clientHome.html';">Enviar</button>
+                
+            </div></form>
+        
+
+
+            
+            
+        
         </div>
-        <div class="image-container">
-            <img src="../../assets/agendaHairIcon.png" alt="Hair Salon">
-            <p class="brand">AgendaHair</p>
+
+
+        </div>
+
+    <div class="image-container">
+        <img src="../../assets/agendaHairIcon.png" alt="Hair Salon">
+        <p class="brand">AgendaHair</p>
+    </div>
+        </div>
         </div>
     </div>
+
+    <script>
+        let account =  JSON.parse(localStorage.getItem('account'))
+        if (!account || account.role.slug == 'PROVIDER') {
+            setTimeout(() => {
+                createCustomAlert('Usuário não autenticado ou sem permissão')
+                
+            }, 2000);
+            setTimeout(() => {
+                window.location.href = '../../index.html'
+            }, 5000);
+            
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function handleSelection(service) {
+            alert(`Você selecionou: ${service}`);
+            showPage('clientHome');
+        }
+    </script>
+
+
+    
 </body>
 </html>
