@@ -31,5 +31,8 @@ route.get("/providers/:id/services",validateUserId, clientController.getProvider
 // localizações
 route.get("/locations", clientController.getLocations);
 
+// categorias
+route.get("/categories", clientController.getCategories);
+
 
 module.exports = route
