@@ -13,7 +13,7 @@ const register = async (req, res) => {
             return res.status(401).json({ message: 'Conta já existente' });
         }
 
-        validData.token = generatejwt({ name: validData.name, email: validData.email, role: validData.role, isAdmin: false });
+        validData.token = generatejwt({ name: validData.name, id: account.id ,email: validData.email, role: validData.role, isAdmin: false });
 
         for (const item of Object.keys(validData)) {
             if (!['email', 'role', 'sex', 'CPF', 'CNPJ', 'token'].includes(item)) {
@@ -42,7 +42,7 @@ const login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        validData.token = generatejwt({ name: validData.name, email: validData.email, role: validData.role, isAdmin: account.admin });
+        validData.token = generatejwt({ name: validData.name, id: account.id ,email: validData.email, role: validData.role, isAdmin: account.admin });
 
         res.status(200).json({
             message: 'Login bem-sucedido',
