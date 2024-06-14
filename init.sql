@@ -91,7 +91,6 @@ CREATE TABLE IF NOT EXISTS messages (
     sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Indexes for performance
 CREATE INDEX idx_messages_sender_id ON messages(sender_id);
 CREATE INDEX idx_messages_receiver_id ON messages(receiver_id);
 CREATE INDEX idx_users_email ON users(email);
@@ -99,7 +98,7 @@ CREATE INDEX idx_services_category_id ON services(category_id);
 CREATE INDEX idx_schedules_client_id ON schedules(client_id);
 CREATE INDEX idx_schedules_service_id ON schedules(service_id);
 
--- Insert initial roles
+-- Dados de teste
 INSERT INTO roles (name, slug, ref)
 VALUES 
 ('Cliente', 'CLIENT','clients'),
@@ -116,7 +115,7 @@ VALUES
 INSERT INTO locations (name, street, cep, city, state, number, available_days, open_time, close_time)
 VALUES 
 ('Salão Estilo Único', 'Rua das Flores', '12345-678', 'Carazinho', 'RS', '227', ARRAY['Monday', 'Wednesday', 'Friday'], '08:00:00', '18:00:00'),
-('Beleza & Cia', 'Avenida Central', '98765-432', 'Rio de Janeiro', 'RJ', '200',  ARRAY['Tuesday', 'Thursday', 'Saturday'], '09:00:00', '17:00:00');
+('Beleza & Cia', 'Avenida Central', '98765-432', 'Itapipoca', 'CE', '200',  ARRAY['Tuesday', 'Thursday', 'Saturday'], '09:00:00', '17:00:00');
 
 -- Inserir dois usuários na tabela users
 INSERT INTO users (name, email, password, phone, cpf, cnpj, sex, role_id, admin)
