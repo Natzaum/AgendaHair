@@ -105,6 +105,13 @@ const contactServiceById = async (req, res) =>{
         }
 
         const user = await admin.getClientByuser_id(decodedToken.id)
+        let agendaAtual = await clientModel.getScheduleServices(user[0].id, 'client_id')
+        
+        for (let servico of agendaAtual) {
+            if (servico.service_id == serviceId) {
+                return res.status(403).json({message:'O cliente já solicitou esse serviço'})
+            }
+        }
 
         const schedule = await clientModel.createScheduleService(serviceId, user[0].id, services[0].provider_id,validData.schedule_date)
 
