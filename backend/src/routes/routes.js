@@ -6,10 +6,12 @@ const {validateUserId} = require('../validation/params')
 const authValidator = require('../validation/authValidator')
 const authController = require('../controllers/authController')
 
+const locationController = require('../controllers/locationController')
+
 const clientController = require('../controllers/clientController')
 const clientValidator = require('../validation/clientValidator')
 
-const providerController = require('../controllers/providerController')
+const serviceController = require('../controllers/serviceController')
 const providerValidator = require('../validation/providerValidator')
 
 const messageController = require('../controllers/messageController')
@@ -41,19 +43,20 @@ route.put("/admin/users/:id",  validateUserId, passport.isAdmin, adminValidator.
 route.delete("/admin/users/:id", validateUserId, passport.isAdmin, middlewares.validationErrors, adminController.deleteUser); 
 
 // profisionais
-route.post("/provider/services", apiRequestLimiter, providerValidator.createSchema, middlewares.validationErrors, providerController.createServiceWithLocation); 
-// route.put("/provider/services/:id", providerValidator.updateSchema, middlewares.validationErrors, providerController.updateService); 
-// route.delete("/provider/services/:id", providerValidator.deleteSchema, middlewares.validationErrors, providerController.deleteService); 
+route.post("/provider/services", apiRequestLimiter, providerValidator.createSchema, middlewares.validationErrors, serviceController.createServiceWithLocation); 
+// route.put("/provider/services/:id", providerValidator.updateSchema, middlewares.validationErrors, serviceController.updateService); 
+route.delete("/provider/services/:id", validateUserId, serviceController.deleteService); 
+route.delete("/schedules/:id", validateUserId, serviceController.deleteSchedule); 
 
 // // rota que os clientes usam para visualizar os serviços
 route.get("/providers", clientController.getAllProviders)
-route.get("/providers/services", clientController.getAllServices)
+route.get("/providers/services", serviceController.getAllServices)
 route.post("/providers/services/:id/contact", apiRequestLimiter, validateUserId, clientValidator.createContact, middlewares.validationErrors, clientController.contactServiceById)
 route.get("/schedules/contacted", clientController.getContactedServices)
 // route.get("/providers/:id/services",validateUserId, clientController.getProviderServicesById)
 
 // localizações
-route.get("/locations", clientController.getLocations);
+route.get("/locations", locationController.getLocations);
 
 // categorias
 route.get("/categories", clientController.getCategories);

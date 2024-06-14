@@ -1,6 +1,7 @@
 const providerModel = require('../models/providerModel');
 const JWT = require('jsonwebtoken');
 const admin = require('../models/adminModel')
+const clientModel = require('../models/clientModel')
 require('dotenv').config();
 
 const createServiceWithLocation = async (req, res) => {
@@ -45,6 +46,60 @@ const createServiceWithLocation = async (req, res) => {
     }
 };
 
+
+const deleteService = async (req, res) => {
+    let serviceId = req.params.id
+    const jwt = req.headers.authorization;
+    const bearerRemover = jwt.replace('Bearer ', '');
+    const decodedToken = JWT.verify(bearerRemover, process.env.JWT_SECRET_KEY);
+
+    try {
+        await providerModel.deleteService(serviceId);
+        res.status(200).json({ message: 'Serviço deletado' });
+    } catch (error) {
+        console.error('Erro ao criar serviço e localização:', error);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+};
+
+
+const deleteSchedule = async (req, res) => {
+    let scheduleId = req.params.id
+    const jwt = req.headers.authorization;
+    const bearerRemover = jwt.replace('Bearer ', '');
+    const decodedToken = JWT.verify(bearerRemover, process.env.JWT_SECRET_KEY);
+
+    try {
+        await providerModel.deleteSchedule(scheduleId);
+        res.status(200).json({ message: 'Agendamento cancelado' , allSchedule});
+    } catch (error) {
+        console.error('Erro ao criar serviço e localização:', error);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+};
+
+
+
+const getAllServices = async (req, res) =>{
+    try {
+        const services = await clientModel.getAllServices()
+        
+        if (services.length == 0) {
+            return res.status(404).json({message:'Nenhum serviço encontrada'})
+        }
+
+        res.status(200).json({message:'Serviços disponiveis', content:services})
+    }
+
+    catch(err){
+        console.error('Erro ao obter services:', err);
+        res.status(500).json({ message: 'Erro interno do servidor' });
+    }
+}
+
 module.exports = {
     createServiceWithLocation,
+    deleteService,
+    getAllServices,
+    deleteSchedule
 };

@@ -52,7 +52,36 @@ const createService = async (serviceData) => {
     }
 };
 
+const deleteService = async (service_id) => {
+    try {
+        const query = `DELETE FROM services WHERE id = $1;`;
+        const values = [service_id];
+
+        const result = await db.query(query, values);
+        return result.rows[0];
+    } catch (err) {
+        console.log(err);
+        throw new Error(err);
+    }
+};
+
+const deleteSchedule = async (schedule_id) => {
+    try {
+        const query = `DELETE FROM schedules WHERE id = $1;`;
+        const values = [schedule_id];
+
+        const result = await db.query(query, values);
+        return result.rows[0];
+    } catch (err) {
+        console.log(err);
+        throw new Error(err);
+    }
+};
+
+
 module.exports = {
     createLocation,
     createService,
+    deleteService,
+    deleteSchedule
 };
