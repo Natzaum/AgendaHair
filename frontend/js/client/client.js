@@ -4,7 +4,7 @@ let selectCategoria = document.querySelector('select#categoria')
 let novoAgendamento = document.querySelector('#clientServices .providerSelect a')
 let verServicosDisponiveis = document.querySelectorAll('#clientNewAppointment .buttons a')[1]
 let btnVerMessages = document.querySelectorAll('#clientMessages .providerSelect a button')[1]
-let clientList = document.querySelector('#clientViewMessages .clientes-list')
+let clientList = document.querySelector('#clientViewMessages .clientes-container')
 let providerViewMessageBackButton =  document.querySelector('#clientViewMessages button')
 let consultarAgendamento = document.querySelectorAll('#clientServices .providerSelect button')[1]
 let categoria = document.getElementById('categoria').value;
@@ -196,6 +196,7 @@ btnVerMessages.addEventListener('click', function () {
                         `
 
                         ul.append(messageElement)
+                        clientList.append(ul)
                     
                     }
 
