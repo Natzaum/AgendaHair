@@ -50,8 +50,8 @@ messageForm.addEventListener('submit', function (event) {
     axios.post('http://localhost:3333/messages/sent', userData, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken}})
         .then(function (response) {
             // alert(JSON.stringify(response.data))
-            if (response.status == 200) {
-                createCustomAlert(JSON.stringify(response.data))
+            if (response.status == 201) {
+                createCustomAlert(JSON.stringify(response.data.message))
             }
         })
         .catch(function (error) {
