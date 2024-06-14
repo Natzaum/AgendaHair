@@ -1,7 +1,6 @@
 const db = require('../database/connection')
 const admin = require('./adminModel')
 
-
 const getLocations = async () => {
     try {
         const locations = await db.query('SELECT * FROM locations')
@@ -28,11 +27,12 @@ const getAllServices = async () => {
     try {
         const services = await db.query('SELECT * FROM services')
         for (const service of services.rows) {
+            console.log(service)
             let provider = await admin.getUserById(service.provider_id)
             service.provider = {name:provider[0].name}
 
             let category = await getCategoryById(service.category_id)
-            service.category = {name:category[0].name, slug:category[0].slug, slug:category[0].description}
+            service.category = {name:category[0].name, slug:category[0].slug, description:category[0].description}
 
             let location = await getLocationById(service.location_id)
             service.location = {name:location[0].name, city:location[0].city, state:location[0].state}
@@ -85,6 +85,67 @@ const getCategoryById = async (category_id) => {
     }
 }
 
+const getServiceById = async (service_id) => {
+    try {
+        const services = await db.query('SELECT * FROM services WHERE id = $1', [service_id])
+        return services.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+
+const createScheduleService = async (service_id, client_id, provider_id,schedule_date) => {
+    try {
+        const query = `
+        INSERT INTO schedules (service_id, client_id, provider_id ,schedule_date)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+        `;
+        const values = [service_id, client_id, provider_id,schedule_date];
+
+        const result = await db.query(query, values);
+        return result.rows[0]
+        }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+
+const getScheduleServices = async (client_id, role) => {
+    try {
+        const query = `SELECT * FROM schedules WHERE ${role} = $1`;
+        const values = [client_id];
+
+        const result = await db.query(query, values);
+
+        for (const schedules of result.rows) {
+            let service = await getServiceById(schedules.service_id)
+            schedules.service = service[0]
+
+            let provider = await admin.getProviderById(service[0].provider_id)
+            let user = await admin.getUserById(provider[0].user_id)
+            schedules.service.provider = {name:user[0].name, email:user[0].email}
+
+            let client = await admin.getClientById(schedules.client_id)
+            let userClient = await admin.getUserById(client[0].user_id)
+
+            schedules.client = {name:userClient[0].name, email:userClient[0].email}
+
+        }
+        return result.rows
+        }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+
 
 
 const getProviderServicesById = async (provider_id) => {
@@ -116,5 +177,8 @@ module.exports = {
     getProviderServicesById,
     getCategoryById,
     getAllProviders,
-    getAllCategories
+    getAllCategories,
+    getServiceById,
+    createScheduleService,
+    getScheduleServices
 }

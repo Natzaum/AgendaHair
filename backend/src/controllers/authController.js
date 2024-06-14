@@ -33,6 +33,7 @@ const login = async (req, res) => {
 
     try {
         const account = await user.getUserByEmail(validData.email);
+        console.log(account)
         if (!account) {
             return res.status(401).json({ message: 'Conta não encontrada' });
         }

@@ -12,6 +12,51 @@ const getUserById = async (user_id) => {
 }
 
 
+const getClientByuser_id= async (user_id) => {
+    try {
+        const services = await db.query('SELECT * FROM clients WHERE user_id = $1', [user_id])
+        return services.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+
+const getProviderByuser_id= async (user_id) => {
+    try {
+        const services = await db.query('SELECT * FROM professionals WHERE user_id = $1', [user_id])
+        return services.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+const getProviderById= async (user_id) => {
+    try {
+        const services = await db.query('SELECT * FROM professionals WHERE id = $1', [user_id])
+        return services.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
+const getClientById = async (user_id) => {
+    try {
+        const services = await db.query('SELECT * FROM clients WHERE id = $1', [user_id])
+        return services.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
 const updateUser = async (id) => {
     try {
         let conta = getUserById(id)
@@ -64,5 +109,9 @@ const updateUser = async (id) => {
 
 module.exports = {
     getUserById,
-    updateUser
+    updateUser,
+    getClientByuser_id,
+    getProviderByuser_id,
+    getProviderById,
+    getClientById
 }

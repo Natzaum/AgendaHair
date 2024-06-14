@@ -12,6 +12,18 @@ a {
     text-decoration: none;
 }
 
+.clientes-list li{
+    border: 1px #ffffff3d solid;
+    text-align: center;
+    height: 100%;
+}
+
+.clientes-list li p{
+    color: #69968a;
+    height: 15px;
+    margin-top: -1px;
+}
+
 
 .hidden {
     display: none;
@@ -188,8 +200,10 @@ a {
     background-color: #3B61A1;
     border-radius: 20px;
     padding: 20px;
-    width: 80%;
+    width: 95%;
     margin: 20px 0;
+    height: 150px;
+    overflow-y: scroll;
 }
 
 .clientes-list {
@@ -200,6 +214,7 @@ a {
 
 .clientes-list li {
     margin-bottom: 10px;
+    font-size: 12px;
 }
 
 

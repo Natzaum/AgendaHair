@@ -16,7 +16,7 @@ const getRoleById = async (role_id) => {
 const getUserByEmail = async (email) => {
     if (!email) throw new Error('Email is required')
     const getUserByEmail = await db.query('SELECT * FROM users WHERE email = $1', [email])
-
+    console.log(getUserByEmail.rows)
     if(getUserByEmail.rows.length == 0){
         return false
     } else {
@@ -37,6 +37,8 @@ const createUser = async (userData) => {
 
     const result = await db.query('SELECT * FROM roles WHERE slug = $1', [userData.role]);
     const roleId = result.rows[0]; 
+
+    console.log(userData.role)
     
     
     const query = {
@@ -55,7 +57,7 @@ const createUser = async (userData) => {
     };
 
     await db.query(insert); 
-    
+    return user.rows[0];
     }
 
 
