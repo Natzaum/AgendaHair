@@ -104,7 +104,7 @@ providerLocation.addEventListener('submit', function (event) {
 
 
 btnVerMessages.addEventListener('click', function () {
-
+    let msgClientList = document.querySelector('#clientViewMessages .clientes-container .clientes-list')
     axios.get('http://localhost:3333/messages', {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken}})
             .then(function (response) {
 
@@ -155,6 +155,11 @@ consultarAgendamento.addEventListener('click', ()=> {
                 ${servico.client.name}
                 <p>${servico.service.name}</p><p>Esta pagando: ${servico.service.price}R$</p><p>Contato: ${servico.client.email}</p>
                 ${hourFormated.replace(/^\S+\s(\S+\s\S+\s)(\S+\s)(\S+)\s.*$/, "$2$1$3")}
+                <div style="display: flex;justify-content: space-around;">
+                    <button onclick="deleteSchedule(${servico.id})" style="    background-color: #ad5e5e;    width: 90px;    height: 30px;">
+                    <p style="    margin: auto 0;    color: white;    font-size: 9px;">Cancelar Solicitação</p>
+                    </button>    
+                </div>
                 `
                 ul.append(li)
                 clientPlan.append(ul)
@@ -173,6 +178,34 @@ consultarAgendamento.addEventListener('click', ()=> {
         console.error('Erro ao enviar dados:', error);
 });
 })
+
+
+const deleteService = (service_id)=> {
+    axios.delete(`http://localhost:3333/provider/services/${service_id}`, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken}})
+        .then(function (response) {
+            if (response.status == 200) {
+                createCustomAlert(JSON.stringify('Serviço deletado com sucesso!'))
+            }
+        })
+        .catch(function (error) {
+            createCustomAlert('Error ao deletar serviço!')
+            console.error('Erro ao enviar dados:', error);
+    });
+}
+
+const deleteSchedule = (schedule_id)=> {
+    axios.delete(`http://localhost:3333/schedules/${schedule_id}`, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken}})
+        .then(function (response) {
+            if (response.status == 200) {
+                createCustomAlert('Agendamento cancelado com sucesso!')
+            }
+        })
+        .catch(function (error) {
+            createCustomAlert('Error ao deletar serviço!')
+            console.error('Erro ao enviar dados:', error);
+    });
+}
+
 
 providerViewMessageBackButton.addEventListener('click', ()=> {
     clientList.textContent = ''

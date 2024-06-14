@@ -99,6 +99,11 @@ consultarAgendamento.addEventListener('click', ()=> {
                 ${servico.service.provider.name}
                 <p>${servico.service.name}</p><p>Preço: ${servico.service.price}R$</p><p>Contato: ${servico.service.provider.email}</p>
                 ${hourFormated.replace(/^\S+\s(\S+\s\S+\s)(\S+\s)(\S+)\s.*$/, "$2$1$3")}
+                <div style="display: flex;justify-content: space-around;">
+                    <button onclick="deleteSchedule(${servico.id})" style="    background-color: #ad5e5e;    width: 90px;    height: 30px;">
+                    <p style="    margin: auto 0;    color: white;    font-size: 9px;">Cancelar Solicitação</p>
+                    </button>    
+                </div>
                 `
                 ul.append(li)
                 clientPlan.append(ul)
@@ -227,3 +232,17 @@ const contactService = (service_id)=> {
 providerViewMessageBackButton.addEventListener('click', ()=> {
     clientList.textContent = ''
 })
+
+
+const deleteSchedule = (schedule_id)=> {
+    axios.delete(`http://localhost:3333/schedules/${schedule_id}`, {headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken}})
+        .then(function (response) {
+            if (response.status == 200) {
+                createCustomAlert('Agendamento cancelado com sucesso!')
+            }
+        })
+        .catch(function (error) {
+            createCustomAlert('Error ao deletar serviço!')
+            console.error('Erro ao enviar dados:', error);
+    });
+}
