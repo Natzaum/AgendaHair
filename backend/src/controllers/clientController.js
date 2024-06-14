@@ -107,7 +107,7 @@ const getContactedServices = async (req, res) =>{
             user = await admin.getClientByuser_id(decodedToken.id)
             role = 'client_id'
         }
-        
+        console.log(user[0].id, role)
         const contactedServices = await clientModel.getScheduleServices(user[0].id, role)
 
         res.status(200).json({message:'Agenda', content:contactedServices})

@@ -71,7 +71,7 @@ const deleteSchedule = async (req, res) => {
 
     try {
         await providerModel.deleteSchedule(scheduleId);
-        res.status(200).json({ message: 'Agendamento cancelado' , allSchedule});
+        res.status(200).json({ message: 'Agendamento cancelado'});
     } catch (error) {
         console.error('Erro ao criar serviço e localização:', error);
         res.status(500).json({ message: 'Erro interno do servidor' });
