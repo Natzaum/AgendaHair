@@ -43,7 +43,7 @@ const login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        validData.token = generatejwt({ name: validData.name, id: account.id ,email: validData.email, role: validData.role, isAdmin: account.admin });
+        validData.token = generatejwt({ name: account.name, id: account.id ,email: validData.email, role: account.role.slug, isAdmin: account.admin });
 
         res.status(200).json({
             message: 'Login bem-sucedido',
