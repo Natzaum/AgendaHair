@@ -16,11 +16,11 @@ btnSignin.addEventListener("click", function () {
 })
 
 
-if(document.getElementById) {
-    window.alert = function(txt) {
-        createCustomAlert(txt);
-    }
-}
+// if(document.getElementById) {
+//     window.alert = function(txt) {
+//         createCustomAlert(txt);
+//     }
+// }
 
 function createCustomAlert(txt) {
     d = document;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(function (error) {
-                createCustomAlert(JSON.stringify(error.response.data))
+                alert(JSON.stringify(error.response.data))
                 console.error('Erro ao enviar dados:', error);
             });
     });
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(function (error) {
-                createCustomAlert(JSON.stringify(error.response.data))
+                alert(JSON.stringify(error.response.data))
                 console.error('Erro ao enviar dados:', error);
             });
     });
