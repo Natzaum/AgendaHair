@@ -52,11 +52,18 @@ module.exports = {
 
         numero: {
             notEmpty: true,
+            isNumeric: {
+                min: 1,
+            },
             errorMessage: "O numero não condiz com os limites de tamanho"
         },
 
         price: {
             notEmpty: true,
+            isNumeric: {
+                min: 1,
+                max:9999
+            },
             errorMessage: "O price não condiz com os limites de tamanho"
         },
         state: {
@@ -69,28 +76,4 @@ module.exports = {
         }
     }),
 
-    loginSchema: checkSchema.checkSchema({
-        email: {
-            isLength: {
-                options: {
-                    min: 7,
-                    max: 50
-                }
-            },
-
-            isEmail: true,
-            errorMessage: "Email inválido para login"
-        },
-
-        password: {
-            isLength: {
-                options: {
-                    min: 8,
-                    max: 100
-                }
-            },
-            errorMessage: "Senha incorreta"
-        },
-
-    })
 }
