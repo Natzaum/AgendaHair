@@ -12,7 +12,7 @@ module.exports = {
                     location: error.location
                 }
             ));
-            return res.status(400).json({ errors: errorsMsgs });
+            return res.status(400).json({ message:'Error de validação', errors: errorsMsgs });
         }
 
         req.validData = matchedData(req);
