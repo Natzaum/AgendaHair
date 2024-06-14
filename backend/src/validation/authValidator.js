@@ -1,5 +1,5 @@
 const checkSchema = require('express-validator')
-const {validateCPF,validateCNPJ,isValidEmailDomain} = require('./validation-functions/functions')
+const {validateIdentification,isValidEmailDomain} = require('./validation-functions/functions')
 
 module.exports = {
     registerSchema: checkSchema.checkSchema({
@@ -42,21 +42,14 @@ module.exports = {
             errorMessage: "A senha não condiz com os limites de tamanho"
         },
 
-        CPF: {
+        identification: {
             optional: { options: { nullable: true } },
             custom: {
-                options: (value) => validateCPF(value),
-                errorMessage: 'CPF inválido'
+                options: (value) => validateIdentification(value),
+                errorMessage: 'Identificação inválida (CPF ou CNPJ)'
             }
         },
 
-        CNPJ: {
-            optional: { options: { nullable: true } },
-            custom: {
-                options: (value) => validateCNPJ(value),
-                errorMessage: 'CNPJ inválido'
-            }
-        },
 
         role: {
             isIn: {

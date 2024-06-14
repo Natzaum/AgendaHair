@@ -38,9 +38,13 @@ const createUser = async (userData) => {
     const result = await db.query('SELECT * FROM roles WHERE slug = $1', [userData.role]);
     const roleId = result.rows[0]; 
 
-    console.log(userData.role)
     
-    
+    if (userData.identification.length == 11) {
+        userData.CPF = userData.identification
+    }
+    if (userData.identification.length >= 13) {
+        userData.CNPJ = userData.identification
+    }
     const query = {
         text: 'INSERT INTO users(name, email, password, role_id, sex , cpf, cnpj, admin) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
         values: [userData.name, userData.email, userData.HashPassword, roleId.id, userData.sex, userData.CPF, userData.CNPJ, false],

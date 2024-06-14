@@ -54,10 +54,7 @@
 
                     <label class="label-input" for="">
                         <i class="fas fa-solid fa-tag icon-modify"></i>
-                        <input name="CPF" type="text" placeholder="CPF ou CNPJ"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                            pattern="(\d{3}\.?\d{3}\.?\d{3}-?\d{2})|(\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})"
-                            maxlength="14">
+                        <input name="identification" type="text" placeholder="CPF ou CNPJ" minlength="11" maxlength="14">
                     </label>
 
                     <label  style="font-size: 13px" for="sex">Sexo</label>

@@ -66,6 +66,9 @@ const sendMessage = (event) => {
     })
     .catch(error => {
         console.error('Erro ao enviar mensagem:', error);
+        if (error.response.status === 400) {
+            return createCustomAlert(error.response.data.message);
+        }
         createCustomAlert(JSON.stringify(error.response.data));
     });
 }
@@ -119,7 +122,7 @@ const consultSchedules = () => {
                     <p>Contato: ${servico.service.provider.email}</p>
                     <p>${hourFormated}</p>
                     <div style="display: flex; justify-content: space-around;">
-                        <button onclick="deleteSchedule(${servico.id})" style="background-color: #ad5e5e; width: 90px; height: 30px;">
+                        <button onclick="deleteSchedule(${servico.id}, this)" style="background-color: #ad5e5e; width: 90px; height: 30px;">
                             <p style="margin: auto 0; color: white; font-size: 9px;">Cancelar Solicitação</p>
                         </button>
                     </div>
@@ -232,11 +235,17 @@ const contactService = (service_id) => {
     })
     .catch(error => {
         console.error('Erro ao contactar serviço:', error);
+        if (error.response.status === 400) {
+            return createCustomAlert(error.response.data.message);
+        }
+        if (error.response.status === 403) {
+            return createCustomAlert(error.response.data.message);
+        }
         createCustomAlert('Erro ao solicitar serviço!');
     });
 }
 
-const deleteSchedule = (schedule_id) => {
+const deleteSchedule = (schedule_id, button) => {
     axios.delete(`http://localhost:3333/schedules/${schedule_id}`, {
         headers: {
             'Content-Type': 'application/json',
@@ -245,6 +254,10 @@ const deleteSchedule = (schedule_id) => {
     })
     .then(response => {
         if (response.status === 200) {
+            button.setAttribute('disabled',true)
+            const tagP = button.querySelector('p')
+            tagP.innerText = 'AGENDAMENTO CANCELADO'
+            button.style.cursor = "no-drop"
             createCustomAlert('Agendamento cancelado com sucesso!');
         }
     })

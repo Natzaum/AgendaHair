@@ -1,8 +1,9 @@
 const allowedDomains = ['gmail.com', 'hotmail.com', 'yahoo.com'];
 
-const validateCPF = (value) => {
-    if (!value) return true; // CPF é opcional, então se não for fornecido, considera-se válido
-    const cpf = value.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+// Função para validar CPF
+const validateCPF = (cpf) => {
+    if (!cpf) return true; // CPF é opcional, então se não for fornecido, considera-se válido
+    cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
     if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; // Verifica se possui 11 dígitos e não são todos iguais
 
     let sum = 0;
@@ -21,9 +22,9 @@ const validateCPF = (value) => {
 };
 
 // Função para validar CNPJ
-const validateCNPJ = (value) => {
-    if (!value) return true; // CNPJ é opcional, então se não for fornecido, considera-se válido
-    const cnpj = value.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+const validateCNPJ = (cnpj) => {
+    if (!cnpj) return true; // CNPJ é opcional, então se não for fornecido, considera-se válido
+    cnpj = cnpj.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
     if (cnpj.length !== 14 || /^(\d)\1{13}$/.test(cnpj)) return false; // Verifica se possui 14 dígitos e não são todos iguais
 
     let size = cnpj.length - 2;
@@ -53,12 +54,20 @@ const validateCNPJ = (value) => {
 };
 
 
+
 const isValidEmailDomain = (value) => {
     const emailDomain = value.split('@')[1];
     return allowedDomains.includes(emailDomain);
 };
 
 
+const validateIdentification = (value) => {
+    if (!value) return true; // Identificação é opcional
+    const cleanedValue = value.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+    return validateCPF(cleanedValue) || validateCNPJ(cleanedValue); // Verifica se é um CPF ou CNPJ válido
+};
+
+
 module.exports = {
-    validateCPF,validateCNPJ,isValidEmailDomain
+    validateCPF,validateCNPJ,isValidEmailDomain, validateIdentification
 }

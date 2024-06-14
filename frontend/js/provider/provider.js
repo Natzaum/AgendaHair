@@ -7,6 +7,7 @@ const messageForm = document.querySelector('#providerSendMessage form');
 const providerLocation = document.querySelector('#providerLocation form');
 const consultarAgendamento = document.querySelectorAll('#providerServices .providerSelect button')[1];
 
+
 async function loadCategories() {
     try {
         const response = await axios.get('http://localhost:3333/categories', {
@@ -29,6 +30,9 @@ async function loadCategories() {
 }
 
 function handleAuthError(error) {
+    if (error.response.status === 400) {
+        return createCustomAlert(error.response.data.message);
+    }
     if (error.response && error.response.status === 401) {
         setTimeout(() => {
             window.location.href = '../../index.html';
@@ -104,9 +108,10 @@ async function viewMessages() {
                 const messageElement = document.createElement('li');
                 const hourFormatted = new Date(message.sent_at).toLocaleString();
                 messageElement.innerHTML = `
-                    <li>${message.sender.name}<p>${message.content}</p>
-                    <p>${hourFormatted}</p>
-                    <p>${message.sender.email}</p></li>
+                    <li>${message.sender.name}
+                    <p>${message.content}</p>
+                    <p style="color: #c7c7c7; height: 10px; font-size: 7px; font-style: italic;">${hourFormatted}</p>
+                    <p style="color: #c7c7c7; height: 10px; font-size: 7px; font-style: italic;">${message.sender.email}</p></li>
                 `;
                 clientList.append(messageElement);
             });
@@ -139,7 +144,7 @@ async function consultarAgendamentos() {
                     <p>Contato: ${servico.client.email}</p>
                     ${hourFormatted}
                     <div style="display: flex; justify-content: space-around;">
-                        <button onclick="deleteSchedule(${servico.id})" style="background-color: #ad5e5e; width: 90px; height: 30px;">
+                        <button onclick="deleteSchedule(${servico.id}, this)" style="background-color: #ad5e5e; width: 90px; height: 30px;">
                             <p style="margin: auto 0; color: white; font-size: 9px;">Cancelar Solicitação</p>
                         </button>
                     </div>
@@ -170,7 +175,7 @@ async function deleteService(service_id) {
     }
 }
 
-async function deleteSchedule(schedule_id) {
+async function deleteSchedule(schedule_id, button) {
     try {
         const response = await axios.delete(`http://localhost:3333/schedules/${schedule_id}`, {
             headers: {
@@ -179,6 +184,10 @@ async function deleteSchedule(schedule_id) {
             }
         });
         if (response.status === 200) {
+            button.setAttribute('disabled',true)
+            const tagP = button.querySelector('p')
+            tagP.innerText = 'AGENDAMENTO CANCELADO'
+            button.style.cursor = "no-drop"
             createCustomAlert('Agendamento cancelado com sucesso!');
         }
     } catch (error) {
