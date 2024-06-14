@@ -74,14 +74,26 @@ CREATE TABLE IF NOT EXISTS services (
 CREATE TABLE IF NOT EXISTS schedules (
     id SERIAL PRIMARY KEY,
     client_id INT REFERENCES clients(id),
+    provider_id INT REFERENCES professionals(id),
     service_id INT REFERENCES services(id),
-    schedule_date TIMESTAMP NOT NULL,
+    schedule_date VARCHAR(24),
     status VARCHAR(50),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+
+CREATE TABLE IF NOT EXISTS messages (
+    id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES users(id),
+    receiver_id INT REFERENCES users(id),
+    content TEXT NOT NULL,
+    sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes for performance
+CREATE INDEX idx_messages_sender_id ON messages(sender_id);
+CREATE INDEX idx_messages_receiver_id ON messages(receiver_id);
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_services_category_id ON services(category_id);
 CREATE INDEX idx_schedules_client_id ON schedules(client_id);
@@ -101,7 +113,7 @@ VALUES
 ('Manicure', 'MANICURE','Consiste em lixar e modelar a borda livre das unhas'),
 ('Maquiador(a)', 'MAKE','Beleza facial');
 
-INSERT INTO locations (name, street, cep, city, state, number)
+INSERT INTO locations (name, street, cep, city, state, number, available_days, open_time, close_time)
 VALUES 
 ('Salão Estilo Único', 'Rua das Flores', '12345-678', 'Carazinho', 'RS', '227', ARRAY['Monday', 'Wednesday', 'Friday'], '08:00:00', '18:00:00'),
 ('Beleza & Cia', 'Avenida Central', '98765-432', 'Rio de Janeiro', 'RJ', '200',  ARRAY['Tuesday', 'Thursday', 'Saturday'], '09:00:00', '17:00:00');
