@@ -40,44 +40,6 @@ O arquivo .exe vai aparecer em `dist/win-unpacked`, basta executar o agendahair.
 ```bash
 npm run server
 ```
-
-## Rotas do Backend
-
-O backend possui as seguintes rotas:
-
-### Registro de Usuário
-
-```bash
-http://localhost:3333/register
-```
-
-Esta rota permite que os usuários se registrem na aplicação.
-Exemplo de dados que devem ser enviada:
-
-(dados falsos para o exemplo)
-```json
-{
-	"name": "cabeludo",
-	"email": "...@gmail.com",
-	"password": "123456we7",
-    "type": "CLIENT",
-	"sex": "Masculino",
-	"genre": "Heterossexual",
-	"CPF": "154.871.140-30",
-	"CNPJ": "58.861.147/0001-56"
-}
-
-```
-
-
-### Login de Usuário
-
-```bash
-http://localhost:3333/login
-```
-
-Esta rota permite que os usuários façam login na aplicação.
-
 ### Bugs conhecidos:
 
 se utilizar npm run build (para buildar o electron) o backend vai apresentar falha
