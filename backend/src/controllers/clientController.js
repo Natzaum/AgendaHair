@@ -40,22 +40,7 @@ const getCategories = async (req, res) =>{
 }
 
 
-const getAllServices = async (req, res) =>{
-    try {
-        const services = await clientModel.getAllServices()
-        
-        if (services.length == 0) {
-            return res.status(404).json({message:'Nenhum serviço encontrada'})
-        }
 
-        res.status(200).json({message:'Serviços disponiveis', content:services})
-    }
-
-    catch(err){
-        console.error('Erro ao obter services:', err);
-        res.status(500).json({ message: 'Erro interno do servidor' });
-    }
-}
 
 const getAllProviders = async (req, res) =>{
     try {
@@ -156,7 +141,6 @@ const getContactedServices = async (req, res) =>{
 module.exports = {
     getLocations,
     getCategories,
-    getAllServices,
     getProviderServicesById,
     getAllProviders,
     contactServiceById,
