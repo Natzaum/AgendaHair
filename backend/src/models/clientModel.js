@@ -12,6 +12,17 @@ const getLocations = async () => {
     }
 }
 
+const getTotalPrice = async (ids) => {
+    try {
+        const total = await db.query('SELECT calculate_total_price($1::int[])', [ids])
+        return total.rows
+    }
+    catch (err) {
+        console.log(err)
+        throw new Error(err)
+    }
+}
+
 const getLocationById = async (location_id) => {
     try {
         const services = await db.query('SELECT * FROM locations WHERE id = $1', [location_id])
@@ -118,35 +129,37 @@ const createScheduleService = async (service_id, client_id, provider_id,schedule
 
 const getScheduleServices = async (client_id, role) => {
     try {
+        // Verifica se o valor de role é válido
+        const validRoles = ['client_id', 'provider_id']; // Lista de colunas permitidas
+        if (!validRoles.includes(role)) {
+            throw new Error('Invalid role');
+        }
+
+        // Monta a query usando o valor seguro de role
         const query = `SELECT * FROM schedules WHERE ${role} = $1`;
         const values = [client_id];
 
         const result = await db.query(query, values);
 
         for (const schedules of result.rows) {
-            let service = await getServiceById(schedules.service_id)
-            schedules.service = service[0]
+            let service = await getServiceById(schedules.service_id);
+            schedules.service = service[0];
 
-            let provider = await admin.getProviderById(service[0].provider_id)
-            let user = await admin.getUserById(provider[0].user_id)
-            schedules.service.provider = {name:user[0].name, email:user[0].email}
+            let provider = await admin.getProviderById(service[0].provider_id);
+            let user = await admin.getUserById(provider[0].user_id);
+            schedules.service.provider = { name: user[0].name, email: user[0].email };
 
-            let client = await admin.getClientById(schedules.client_id)
-            let userClient = await admin.getUserById(client[0].user_id)
+            let client = await admin.getClientById(schedules.client_id);
+            let userClient = await admin.getUserById(client[0].user_id);
 
-            schedules.client = {name:userClient[0].name, email:userClient[0].email}
-
+            schedules.client = { name: userClient[0].name, email: userClient[0].email };
         }
-        return result.rows
-        }
-    catch (err) {
-        console.log(err)
-        throw new Error(err)
+        return result.rows;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err);
     }
-}
-
-
-
+};
 
 const getProviderServicesById = async (provider_id) => {
     try {
@@ -180,5 +193,6 @@ module.exports = {
     getAllCategories,
     getServiceById,
     createScheduleService,
-    getScheduleServices
+    getScheduleServices,
+    getTotalPrice
 }

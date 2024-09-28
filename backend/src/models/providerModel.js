@@ -30,8 +30,8 @@ const createLocation = async (locationData) => {
 const createService = async (serviceData) => {
     try {
         const query = `
-            INSERT INTO services (name, category_id, price, provider_id, location_id, description, status)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            INSERT INTO services (name, category_id, price, provider_id, location_id, description)
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *;
         `;
         const values = [
@@ -40,8 +40,7 @@ const createService = async (serviceData) => {
             serviceData.price,
             serviceData.provider_id,
             serviceData.location_id,
-            serviceData.description,
-            serviceData.status
+            serviceData.description
         ];
 
         const result = await db.query(query, values);

@@ -100,6 +100,7 @@ const loadCategories = () => {
 
 const consultSchedules = () => {
     const clientPlan = document.querySelector('#clientPlan .clientes-container');
+    const totalPrice = document.querySelector('#totalPrice')
     axios.get('http://localhost:3333/schedules/contacted', {
         headers: {
             'Content-Type': 'application/json',
@@ -108,7 +109,8 @@ const consultSchedules = () => {
     })
     .then(response => {
         if (response.status === 200) {
-            clientPlan.innerHTML = ''; // Limpar o conteúdo existente
+            clientPlan.innerHTML = ''
+            totalPrice.textContent = response.data.totalPrice[0].calculate_total_price
             response.data.content.forEach(servico => {
                 const ul = document.createElement('ul');
                 ul.classList.add('clientes-list');

@@ -108,9 +108,18 @@ const getContactedServices = async (req, res) =>{
             role = 'client_id'
         }
         console.log(user[0].id, role)
+        
         const contactedServices = await clientModel.getScheduleServices(user[0].id, role)
+        let totalPrice
+        const serviceIDS = []
+        for (let i = 0; i < contactedServices.length; i++) {
+            serviceIDS.push(contactedServices[i].service_id)
+        }
+        console.log(serviceIDS)
+        
+        totalPrice = await clientModel.getTotalPrice(serviceIDS)
 
-        res.status(200).json({message:'Agenda', content:contactedServices})
+        res.status(200).json({message:'Agenda', content:contactedServices, totalPrice:totalPrice})
     }
 
     catch(err){

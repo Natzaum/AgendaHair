@@ -17,8 +17,6 @@ const providerValidator = require('../validation/providerValidator')
 const messageController = require('../controllers/messageController')
 const messageValidator = require('../validation/messageValidator')
 
-const adminValidator = require('../validation/adminValidator')
-const adminController = require('../controllers/adminController')
 const middlewares = require('../middlewares/global')
 
 
@@ -36,11 +34,6 @@ const route = Router()
 
 route.post("/register", apiRequestLimiter, authValidator.registerSchema, middlewares.validationErrors, authController.register);
 route.post("/login", apiRequestLimiter, authValidator.loginSchema, middlewares.validationErrors, authController.login);
-
-//rotas administrativas
-route.get("/admin/users", passport.isAdmin, adminController.getAllUsers); 
-route.put("/admin/users/:id",  validateUserId, passport.isAdmin, adminValidator.updateUserSchema, middlewares.validationErrors, adminController.updateUser); 
-route.delete("/admin/users/:id", validateUserId, passport.isAdmin, middlewares.validationErrors, adminController.deleteUser); 
 
 // profisionais
 route.post("/provider/services", apiRequestLimiter, providerValidator.createSchema, middlewares.validationErrors, serviceController.createServiceWithLocation); 
